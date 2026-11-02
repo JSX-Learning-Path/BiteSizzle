@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+
+:root {
+  /* Brand Colors */
+  --brand-primary: #f26a21;
+  --brand-primary-hover: #dd5b17;
+  --brand-soft: #fff1e8;
+
+  /* Background Colors */
+  --app-background: #fffcf8;
+  --surface-background: #ffffff;
+
+  /* Text Colors */
+  --text-primary: #202020;
+  --text-secondary: #6b7280;
+
+  /* UI Colors */
+  --border-color: #e5e7eb;
+  --success-color: #16a34a;
+  --error-color: #dc2626;
+
+  /* Typography */
+  --font-brand: "Fredoka Variable", sans-serif;
+  --font-body: "DM Sans Variable", sans-serif;
+}
+@theme inline {
+  /* Colors */
+  --color-brand: var(--brand-primary);
+  --color-brand-hover: var(--brand-primary-hover);
+  --color-brand-soft: var(--brand-soft);
+
+  --color-app-bg: var(--app-background);
+  --color-surface: var(--surface-background);
+
+  --color-content: var(--text-primary);
+  --color-muted: var(--text-secondary);
+
+  --color-border: var(--border-color);
+
+  /* Fonts */
+  --font-sans: var(--font-body);
+  --font-display: var(--font-brand);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: var(--font-body);
+  background-color: var(--app-background);
+  color: var(--text-primary);
+}
+
+#root {
+  min-height: 100vh;
+}
