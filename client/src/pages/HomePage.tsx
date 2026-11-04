@@ -78,12 +78,56 @@ function HomePage() {
             sx={{
               fontFamily: "var(--font-brand)",
               fontWeight: 700,
-              fontSize: { xs: "1.5rem", md: "2rem", lg: "5rem" },
-              color: "#ffffff",
+              fontSize: { xs: "2.5rem", sm: "3.5rem", md: "4rem", lg: "5rem" },
+              color: "#FFFFFF",
+              lineHeight: 1.2,
             }}
           >
             Delicious meals delivered to your door
           </Typography>
+          {/*CTA */}
+          <Typography
+            sx={{
+              color: "primary.dark",
+              fontWeight: 700,
+              marginTop: 2,
+              maxWidth: "600px",
+              fontSize: {
+                xs: "0.9rem",
+                sm: "1.2rem",
+                md: "1.5rem",
+                lg: "2rem",
+              },
+              lineHeight: 1.5,
+            }}
+          >
+            Discover delicious meals made fresh every day and delivered straight
+            to your door. Your next favorite bite is waiting!
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", md: "row" },
+              gap: 2,
+              mt: 2,
+              width: { xs: "100%", sm: "auto" },
+            }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ flexGrow: 1, mr: { md: 2 } }}
+            >
+              Order Now
+            </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              sx={{ flexGrow: 1 }}
+            >
+              See Offers
+            </Button>
+          </Box>
         </Box>
       </Box>
     </Box>
