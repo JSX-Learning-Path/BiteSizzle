@@ -16,7 +16,7 @@ function CategoryCard({ category, isSelected, onSelect }: CategoryCardProps) {
   return (
     <Card
       component="article"
-      elevation={0}
+      elevation={1}
       sx={{
         borderRadius: 3,
         overflow: "hidden",
