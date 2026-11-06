@@ -2,6 +2,8 @@ import Box from "@mui/material/Box";
 import CategoriesSection from "../components/CategoriesSection";
 import HomePageHero from "../components/HomePagehero";
 import WhyChooseUs from "../components/WhyChooseUs";
+import PopularProducts from "../components/PopularProducts";
+import { products } from "../data/products";
 
 function HomePage() {
   return (
@@ -9,6 +11,7 @@ function HomePage() {
       <HomePageHero />
       <CategoriesSection />
       <WhyChooseUs />
+      <PopularProducts products={products} />
     </Box>
   );
 }

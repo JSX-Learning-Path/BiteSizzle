@@ -4,6 +4,8 @@ import "@fontsource/lilita-one/400.css";
 import "@fontsource-variable/dm-sans";
 import "@fontsource-variable/fredoka";
 import CssBaseline from "@mui/material/CssBaseline";
+import { BrowserRouter } from "react-router-dom";
+import { CartProvider } from "./context/CartContext";
 
 import { ThemeProvider } from "@mui/material/styles";
 import "./index.css";
@@ -14,7 +16,11 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <App />
+      <BrowserRouter>
+        <CartProvider>
+          <App />
+        </CartProvider>
+      </BrowserRouter>
     </ThemeProvider>
   </StrictMode>,
 );

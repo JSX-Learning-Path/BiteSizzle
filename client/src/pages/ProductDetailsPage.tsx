@@ -1,0 +1,63 @@
+import { Box, CardMedia, Typography } from "@mui/material";
+import { useParams } from "react-router-dom";
+import { products } from "../data/products";
+
+function ProductDetailsPage() {
+  const { id } = useParams();
+  const product = products.find((product) => Number(id) === Number(product.id));
+  if (!product) {
+    return (
+      <Box sx={{ py: 6, px: 3, textAlign: "center" }}>
+        <Typography variant="h6">Product not found</Typography>
+      </Box>
+    );
+  }
+  return (
+    <Box component="main" sx={{ py: 6, px: 3 }}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+          gap: 3,
+        }}
+      >
+        <CardMedia
+          component="img"
+          image={product.imageUrl}
+          alt={product.name}
+          sx={{
+            width: "100%",
+            height: { xs: 250, md: 400 },
+            objectFit: "cover",
+            borderRadius: 3,
+          }}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+          }}
+        >
+          <Typography variant="h3" sx={{ fontWeight: "bold" }}>
+            {product.name}
+          </Typography>
+          <Typography sx={{ mt: 2 }}>{product.description}</Typography>
+          <Typography variant="h5" sx={{ mt: 2, fontWeight: "bold" }}>
+            ${product.price.toFixed(2)}
+          </Typography>
+          <Typography variant="h6" sx={{ mt: 4 }}>
+            Ingredients:
+          </Typography>
+          <Box component="ul" sx={{}}>
+            {product.ingredients.map((ingredient, index) => (
+              <li key={index}>{ingredient}</li>
+            ))}
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  );
+}
+
+export default ProductDetailsPage;
