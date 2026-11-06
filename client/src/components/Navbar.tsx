@@ -12,12 +12,16 @@ import {
   ListItemText,
   Divider,
   Box,
+  Badge,
 } from "@mui/material";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import logo from "../assets/logo-sizzle.png";
+import { useCart } from "../context/CartContext";
+import { Link } from "react-router-dom";
+import CartPage from "../pages/CartPage";
 
 const navItems = ["Home", "Menu", "About", "Contact"];
 
@@ -31,7 +35,9 @@ function Navbar() {
   const handleCloseMenu = () => {
     setIsDrawerOpen(false);
   };
+  const { items } = useCart();
 
+  const cartItem = items.reduce((total, item) => total + item.quantity, 0);
   return (
     <>
       <AppBar
@@ -47,7 +53,11 @@ function Navbar() {
           disableGutters
           className="mx-auto w-full max-w-7xl justify-between px-4 sm:px-6 lg:px-8"
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Box
+            component={Link}
+            to="/"
+            sx={{ display: "flex", alignItems: "center", gap: 1 }}
+          >
             <img src={logo} alt="BiteSizzle Logo" className="h-8 w-8" />
             <Typography
               variant="h5"
@@ -60,7 +70,12 @@ function Navbar() {
           {/* Desktop Navigation */}
           <nav className="hidden items-center gap-2 md:flex">
             {navItems.map((item) => (
-              <Button key={item} color="inherit">
+              <Button
+                key={item}
+                color="inherit"
+                component={Link}
+                to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+              >
                 {item}
               </Button>
             ))}
@@ -68,8 +83,10 @@ function Navbar() {
 
           {/* Actions */}
           <div className="flex items-center gap-1">
-            <IconButton aria-label="Shopping cart" color="inherit">
-              <ShoppingCartOutlinedIcon />
+            <IconButton aria-label="Shopping cart" color="inherit" component={Link} to="/cart">
+              <Badge badgeContent={cartItem} color="primary">
+                <ShoppingCartOutlinedIcon />
+              </Badge>
             </IconButton>
 
             {/* Mobile Menu Button */}
@@ -106,7 +123,12 @@ function Navbar() {
 
           <List>
             {navItems.map((item) => (
-              <ListItemButton key={item} onClick={handleCloseMenu}>
+              <ListItemButton
+                key={item}
+                component={Link}
+                to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                onClick={handleCloseMenu}
+              >
                 <ListItemText primary={item} />
               </ListItemButton>
             ))}

@@ -1,8 +1,10 @@
-import { Box, CardMedia, Typography } from "@mui/material";
+import { Box, CardMedia, Typography, Button } from "@mui/material";
+import { useCart } from "../context/CartContext";
 import { useParams } from "react-router-dom";
 import { products } from "../data/products";
 
 function ProductDetailsPage() {
+  const { addToCart } = useCart();
   const { id } = useParams();
   const product = products.find((product) => Number(id) === Number(product.id));
   if (!product) {
@@ -53,6 +55,15 @@ function ProductDetailsPage() {
             {product.ingredients.map((ingredient, index) => (
               <li key={index}>{ingredient}</li>
             ))}
+          </Box>
+          <Box sx={{ mt: 4 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => addToCart(product)}
+            >
+              Add to Cart
+            </Button>
           </Box>
         </Box>
       </Box>

@@ -2,6 +2,7 @@ import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import { Route, Routes } from "react-router-dom";
+import CartPage from "./pages/CartPage";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/product/:id" element={<ProductDetailsPage />} />
+        <Route path="/cart" element={<CartPage />} />
       </Routes>
     </div>
   );
