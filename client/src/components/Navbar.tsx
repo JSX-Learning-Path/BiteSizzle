@@ -21,7 +21,6 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import logo from "../assets/logo-sizzle.png";
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
-import CartPage from "../pages/CartPage";
 
 const navItems = ["Home", "Menu", "About", "Contact"];
 
@@ -83,7 +82,12 @@ function Navbar() {
 
           {/* Actions */}
           <div className="flex items-center gap-1">
-            <IconButton aria-label="Shopping cart" color="inherit" component={Link} to="/cart">
+            <IconButton
+              aria-label="Shopping cart"
+              color="inherit"
+              component={Link}
+              to="/cart"
+            >
               <Badge badgeContent={cartItem} color="primary">
                 <ShoppingCartOutlinedIcon />
               </Badge>

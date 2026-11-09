@@ -135,7 +135,7 @@ function CartPage() {
             <Typography>Delivery Fee:</Typography>
             <Typography>€{(cartTotal * 0.1).toFixed(2)}</Typography>
           </Box>
-          <Divider />
+          <Divider sx={{ mt: 2 }} />
           <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
             <Typography variant="h6" sx={{ fontWeight: "bold" }}>
               Total:

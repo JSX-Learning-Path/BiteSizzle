@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import heroImage from "../assets/hero-logo.png";
 import CategoriesSection from "./CategoriesSection";
 
+import { Link as RouterLink } from "react-router-dom";
 function HomePage() {
   return (
     <Box component="main" sx={{ bgcolor: "background.default" }}>
@@ -114,6 +115,8 @@ function HomePage() {
             }}
           >
             <Button
+              component={RouterLink}
+              to="/menu"
               variant="contained"
               color="primary"
               sx={{ flexGrow: 1, mr: { md: 2 } }}
