@@ -4,6 +4,8 @@ import HomePageHero from "../components/HomePagehero";
 import WhyChooseUs from "../components/WhyChooseUs";
 import PopularProducts from "../components/PopularProducts";
 import { products } from "../data/products";
+import FeedBack from "../components/FeedBack";
+import Footer from "../components/Footer";
 
 function HomePage() {
   return (
@@ -12,6 +14,8 @@ function HomePage() {
       <CategoriesSection />
       <WhyChooseUs />
       <PopularProducts products={products} />
+      <FeedBack />
+      <Footer />
     </Box>
   );
 }

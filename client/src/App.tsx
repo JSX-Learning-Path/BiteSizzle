@@ -8,10 +8,12 @@ import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import MenuPage from "./pages/MenuPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
+import ScrollToTop from "./components/ScrollToTop";
 function App() {
   return (
     <div className="min-h-screen">
       <Navbar />
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/product/:id" element={<ProductDetailsPage />} />
