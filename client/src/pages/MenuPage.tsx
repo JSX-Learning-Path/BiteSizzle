@@ -15,7 +15,7 @@ function MenuPage() {
       component="main"
       sx={{
         backgroundColor: "background.default",
-        maxWidth: "1200px",
+        maxWidth: "1250px",
         mx: "auto",
         p: 2,
       }}

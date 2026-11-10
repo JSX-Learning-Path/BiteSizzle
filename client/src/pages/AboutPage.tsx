@@ -5,7 +5,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 function AboutPage() {
   return (
-    <Box component="main" sx={{ maxWidth: "1200px", mx: "auto", px: 2, py: 3 }}>
+    <Box component="main" sx={{ maxWidth: "1250px", mx: "auto", px: 2, py: 3 }}>
       <Box
         component="section"
         sx={{
