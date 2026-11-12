@@ -1,12 +1,28 @@
 import { Box, CardMedia, Typography, Button } from "@mui/material";
 import { useCart } from "../context/CartContext";
 import { useParams } from "react-router-dom";
-import { products } from "../data/products";
+import { useProducts } from "../context/ProductContext";
 
 function ProductDetailsPage() {
   const { addToCart } = useCart();
   const { id } = useParams();
-  const product = products.find((product) => Number(id) === Number(product.id));
+  const { products, isLoading, error } = useProducts();
+  const product = products.find((product) => product.id === id);
+  if (isLoading) {
+    return (
+      <Box sx={{ py: 6, textAlign: "center" }}>
+        <Typography>Loading product...</Typography>
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ py: 6, textAlign: "center" }}>
+        <Typography color="error">{error}</Typography>
+      </Box>
+    );
+  }
   if (!product) {
     return (
       <Box sx={{ py: 6, px: 3, textAlign: "center" }}>

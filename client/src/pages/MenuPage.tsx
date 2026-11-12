@@ -1,12 +1,12 @@
 import { Box, Typography, Button, Divider } from "@mui/material";
 import { useState } from "react";
 import { categories } from "../data/categories";
-import { products } from "../data/products";
+import { useProducts } from "../context/ProductContext";
 import ProductCard from "../components/ProductCard";
 
 function MenuPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-
+  const { products, isLoading, error } = useProducts();
   const filteredProducts = products.filter((product) => {
     return selectedCategory === null || product.categoryId === selectedCategory;
   });
@@ -81,9 +81,15 @@ function MenuPage() {
           mt: 5,
         }}
       >
-        {filteredProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        {isLoading ? (
+          <Typography>Loading products...</Typography>
+        ) : error ? (
+          <Typography color="error">{error}</Typography>
+        ) : (
+          filteredProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        )}
       </Box>
     </Box>
   );
