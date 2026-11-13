@@ -1,10 +1,11 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { categories } from "../data/categories";
+import { useCategories } from "../context/CategoriesContext";
 import CategoryCard from "./CategoryCard";
 import { useState } from "react";
 
 function CategoriesSection() {
+  const { categories, isLoading, error } = useCategories();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const handleSelectCategory = (categoryId: string) => {
@@ -71,14 +72,20 @@ function CategoriesSection() {
             gap: { xs: 2, md: 3 },
           }}
         >
-          {categories.map((category) => (
-            <CategoryCard
-              key={category.id}
-              category={category}
-              isSelected={selectedCategory === category.id}
-              onSelect={handleSelectCategory}
-            />
-          ))}
+          {isLoading ? (
+            <Typography>Loading categories...</Typography>
+          ) : error ? (
+            <Typography>Error loading categories</Typography>
+          ) : (
+            categories.map((category) => (
+              <CategoryCard
+                key={category.id}
+                category={category}
+                isSelected={selectedCategory === category.id}
+                onSelect={handleSelectCategory}
+              />
+            ))
+          )}
         </Box>
       </Box>
     </Box>

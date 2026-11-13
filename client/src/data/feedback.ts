@@ -31,7 +31,7 @@ export const feedback: Feedback[] = [
   {
     id: "4",
     name: "Francheska White",
-    comment: "Great service and ",
+    comment: "Fast and friendly service",
     rating: 4,
     avatar: francheskaAvatar,
   },

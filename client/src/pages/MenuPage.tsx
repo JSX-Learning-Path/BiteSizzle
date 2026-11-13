@@ -1,10 +1,11 @@
 import { Box, Typography, Button, Divider } from "@mui/material";
 import { useState } from "react";
-import { categories } from "../data/categories";
+import { useCategories } from "../context/CategoriesContext";
 import { useProducts } from "../context/ProductContext";
 import ProductCard from "../components/ProductCard";
 
 function MenuPage() {
+  const { categories } = useCategories();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const { products, isLoading, error } = useProducts();
   const filteredProducts = products.filter((product) => {

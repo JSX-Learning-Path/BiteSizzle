@@ -11,17 +11,20 @@ import "./index.css";
 import App from "./App.tsx";
 import { theme } from "./theme/theme";
 import { ProductsProvider } from "./context/ProductContext";
+import { CategoriesProvider } from "./context/CategoriesContext";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
-        <ProductsProvider>
-          <CartProvider>
-            <App />
-          </CartProvider>
-        </ProductsProvider>
+        <CategoriesProvider>
+          <ProductsProvider>
+            <CartProvider>
+              <App />
+            </CartProvider>
+          </ProductsProvider>
+        </CategoriesProvider>
       </BrowserRouter>
     </ThemeProvider>
   </StrictMode>,

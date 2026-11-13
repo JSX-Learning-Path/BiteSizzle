@@ -6,10 +6,10 @@ import {
   Card,
   Divider,
 } from "@mui/material";
-
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
+import { createOrder } from "../services/orders.service";
 
 function CheckoutPage() {
   const { items, clearCart } = useCart();
@@ -46,22 +46,43 @@ function CheckoutPage() {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (items.length === 0) return;
-    const order = {
-      orderNumber: Date.now(),
-      customer: formData,
-      items: [...items],
-      subtotal,
-      deliveryFee,
-      total,
-    };
-    navigate("/order-confirmation", {
-      state: { order },
-    });
-    clearCart();
+
+    try {
+      const result = await createOrder({
+        customer: formData,
+        items: items.map((item) => ({
+          id: item.id,
+          quantity: item.quantity,
+        })),
+      });
+
+      const order = {
+        orderNumber: result.order.id,
+        customer: formData,
+        items: [...items],
+        subtotal: Number(result.order.subtotal),
+        deliveryFee: Number(result.order.delivery_fee),
+        total: Number(result.order.total),
+      };
+
+      navigate("/order-confirmation", {
+        state: { order },
+      });
+
+      clearCart();
+    } catch (error) {
+      console.error("Order creation failed:", error);
+
+      alert(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+      );
+    }
   };
 
   return (
@@ -105,7 +126,7 @@ function CheckoutPage() {
             gap: 2,
           }}
         >
-          <Typography variant="h5" fontWeight="bold">
+          <Typography variant="h5" sx={{ fontWeight: "bold" }}>
             Delivery Information
           </Typography>
 
@@ -237,7 +258,6 @@ function CheckoutPage() {
             <Typography variant="h6" sx={{ fontWeight: "bold" }}>
               Total
             </Typography>
-
             <Typography
               variant="h6"
               sx={{ fontWeight: "bold" }}
