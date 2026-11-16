@@ -2,6 +2,81 @@ import { Router } from "express";
 import { pool } from "../config/db.js";
 
 const router = Router();
+router.get("/:id", async (req, res) => {
+  try {
+    const orderId = Number(req.params.id);
+    console.log(orderId);
+    if (Number.isNaN(orderId) || orderId <= 0) {
+      return res.status(400).json({
+        message: "Invalid ID",
+      });
+    }
+    const result = await pool.query(
+      `SELECT
+      id,
+      full_name AS "fullName",
+      phone,
+      email,
+      city,
+      address,
+      instructions,
+      subtotal,
+      delivery_fee AS "deliveryFee",
+      total,
+      status,
+      created_at AS "createdAt"
+      FROM orders
+      WHERE id =$1
+      `,
+      [orderId],
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        message: "Order it's not found",
+      });
+    }
+    const itemsResult = await pool.query(
+      `SELECT 
+      id,
+      product_id AS "productID",
+      product_name as "productName",
+      image_url as "imageUrl",
+      quantity,
+      unit_price as "unitPrice",
+      line_total as "lineTotal"
+      FROM order_items
+      WHERE order_id =$1
+      `,
+      [orderId],
+    );
+    const order = result.rows[0];
+
+    return res.status(200).json({
+      order: {
+        ...order,
+        subtotal: Number(order.subtotal),
+        deliveryFee: Number(order.deliveryFee),
+        total: Number(order.total),
+      },
+      items: itemsResult.rows.map((item) => ({
+        id: item.id,
+        productID: item.productID,
+        productName: item.productName,
+        imageUrl: item.imageUrl,
+        quantity: item.quantity,
+        unitPrice: Number(item.unitPrice),
+        lineTotal: Number(item.lineTotal),
+      })),
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error);
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  }
+});
 
 router.post("/", async (req, res) => {
   const { customer, items } = req.body;

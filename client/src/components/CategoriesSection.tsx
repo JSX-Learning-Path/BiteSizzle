@@ -13,6 +13,7 @@ function CategoriesSection() {
       currentId === categoryId ? null : categoryId,
     );
   };
+
   return (
     <Box
       component="section"
@@ -33,6 +34,7 @@ function CategoriesSection() {
           >
             Explore the menu
           </Typography>
+
           <Typography
             component="h2"
             sx={{
@@ -60,14 +62,14 @@ function CategoriesSection() {
             Discover our delicious selection of freshly prepared food.
           </Typography>
         </Box>
-        {/* Grid */}
+
         <Box
           sx={{
             mt: 5,
             display: "grid",
             gridTemplateColumns: {
-              xs: "repeat(2 , minmax(0,1fr))",
-              md: "repeat(4 , minmax(0,1fr))",
+              xs: "repeat(2, minmax(0, 1fr))",
+              md: "repeat(4, minmax(0, 1fr))",
             },
             gap: { xs: 2, md: 3 },
           }}
@@ -91,4 +93,5 @@ function CategoriesSection() {
     </Box>
   );
 }
+
 export default CategoriesSection;

@@ -1,7 +1,12 @@
-import { useState, createContext, useContext, type ReactNode } from "react";
+import {
+  useState,
+  createContext,
+  useContext,
+  type ReactNode,
+  useEffect,
+} from "react";
 import type { CartItem } from "../types/cart";
 import type { Product } from "../types/product";
-
 
 interface CartContextType {
   items: CartItem[];
@@ -18,7 +23,20 @@ interface CartProviderProps {
 }
 
 export function CartProvider({ children }: CartProviderProps) {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItem[]>(() => {
+    try {
+      const savedCart = localStorage.getItem("cart");
+      if (savedCart) {
+        return JSON.parse(savedCart);
+      }
+    } catch (error) {
+      console.error("Failed to parse cart from localStorage:", error);
+    }
+    return [];
+  });
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(items));
+  }, [items]);
 
   const addToCart = (product: Product) => {
     setItems((currentItems) => {

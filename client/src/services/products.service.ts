@@ -1,13 +1,10 @@
 import type { Product } from "../types/product";
+import fetchApi from "./api.services";
 
 const API_URL = "http://localhost:5001/api";
 
 export const getProducts = async (): Promise<Product[]> => {
-  const response = await fetch(`${API_URL}/products`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch products");
-  }
-  const products: Product[] = await response.json();
+  const products = await fetchApi<Product[]>(`${API_URL}/products`);
   return products;
 };
 

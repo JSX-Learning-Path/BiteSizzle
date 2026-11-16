@@ -31,6 +31,7 @@ export const CategoriesProvider = ({ children }: { children: ReactNode }) => {
         setCategories(data);
       } catch (error) {
         setError(error instanceof Error ? error.message : String(error));
+      } finally {
         setIsLoading(false);
       }
     };

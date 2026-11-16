@@ -1,3 +1,6 @@
+import type { OrderResponse, CreateOrderResponse } from "../types/order";
+import fetchApi from "./api.services";
+
 interface Customer {
   fullName: string;
   phone: string;
@@ -19,20 +22,18 @@ interface CreateOrderPayload {
 
 const API_URL = "http://localhost:5001/api";
 
-export const createOrder = async (order: CreateOrderPayload) => {
-  const response = await fetch(`${API_URL}/orders`, {
+export const createOrder = async (
+  order: CreateOrderPayload,
+): Promise<CreateOrderResponse> => {
+  return fetchApi<CreateOrderResponse>(`${API_URL}/orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(order),
   });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Failed to create order");
-  }
-
+};
+export const getOrderById = async (id: number): Promise<OrderResponse> => {
+  const data = await fetchApi<OrderResponse>(`${API_URL}/orders/${id}`);
   return data;
 };

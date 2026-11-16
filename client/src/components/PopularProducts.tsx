@@ -39,6 +39,7 @@ function PopularProducts({ products }: PopularProductsProps) {
           A taste above the rest
         </Typography>
       </Box>
+
       <Box
         sx={{
           display: "grid",

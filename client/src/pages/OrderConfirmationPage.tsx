@@ -1,29 +1,38 @@
 import { Box, Typography, Button, Card, Divider } from "@mui/material";
-import { Navigate, Link as RouterLink } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import type { CartItem } from "../types/cart";
-
-interface Order {
-  orderNumber: number;
-  customer: {
-    fullName: string;
-    phone: string;
-    address: string;
-    city: string;
-    instructions: string;
-    email: string;
-  };
-  items: CartItem[];
-  subtotal: number;
-  deliveryFee: number;
-  total: number;
-}
+import { Link as RouterLink, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import type { OrderResponse } from "../types/order";
+import { getOrderById } from "../services/orders.service";
 
 function OrderConfirmationPage() {
-  const location = useLocation();
-  const order = (location.state as { order?: Order } | null)?.order;
-  if (!order) {
-    return <Navigate to="/" />;
+  const [order, setOrder] = useState<OrderResponse | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const { id } = useParams<{ id: string }>();
+  useEffect(() => {
+    if (!id) return;
+    const fetchOrder = async () => {
+      try {
+        const data = await getOrderById(Number(id));
+        setOrder(data);
+      } catch (error) {
+        setError("Failed to fetch order");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchOrder();
+  }, [id]);
+  if (loading) {
+    return <Typography sx={{ textAlign: "center" }}>Loading...</Typography>;
+  }
+  if (error || !order) {
+    return (
+      <Typography sx={{ textAlign: "center" }} color="error">
+        {error || "Order not found"}
+      </Typography>
+    );
   }
   return (
     <Box
@@ -44,23 +53,23 @@ function OrderConfirmationPage() {
       </Typography>
 
       <Typography sx={{ textAlign: "center", mt: 2 }} color="text.secondary">
-        Thank you for your order, {order.customer.fullName}!
+        Thank you for your order, {order.order.fullName}!
       </Typography>
 
       <Card sx={{ p: 3, mt: 4 }}>
         <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-          Order #{order.orderNumber}
+          Order #{order.order.id}
         </Typography>
 
         <Divider sx={{ my: 2 }} />
 
         <Typography variant="h6">Delivery Information</Typography>
 
-        <Typography>{order.customer.fullName}</Typography>
-        <Typography>{order.customer.phone}</Typography>
-        <Typography>{order.customer.email}</Typography>
+        <Typography>{order.order.fullName}</Typography>
+        <Typography>{order.order.phone}</Typography>
+        <Typography>{order.order.email}</Typography>
         <Typography>
-          {order.customer.address}, {order.customer.city}
+          {order.order.address}, {order.order.city}
         </Typography>
 
         <Divider sx={{ my: 2 }} />
@@ -79,10 +88,10 @@ function OrderConfirmationPage() {
             }}
           >
             <Typography>
-              {item.name} × {item.quantity}
+              {item.productName} × {item.quantity}
             </Typography>
 
-            <Typography>€{(item.price * item.quantity).toFixed(2)}</Typography>
+            <Typography>€{item.lineTotal.toFixed(2)}</Typography>
           </Box>
         ))}
 
@@ -90,12 +99,12 @@ function OrderConfirmationPage() {
 
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography>Subtotal</Typography>
-          <Typography>€{order.subtotal.toFixed(2)}</Typography>
+          <Typography>€{order.order.subtotal.toFixed(2)}</Typography>
         </Box>
 
         <Box sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
           <Typography>Delivery Fee</Typography>
-          <Typography>€{order.deliveryFee.toFixed(2)}</Typography>
+          <Typography>€{order.order.deliveryFee.toFixed(2)}</Typography>
         </Box>
 
         <Divider sx={{ my: 2 }} />
@@ -106,7 +115,7 @@ function OrderConfirmationPage() {
           </Typography>
 
           <Typography variant="h6" sx={{ fontWeight: "bold" }} color="primary">
-            €{order.total.toFixed(2)}
+            €{order.order.total.toFixed(2)}
           </Typography>
         </Box>
       </Card>

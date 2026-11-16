@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { createOrder } from "../services/orders.service";
 
 function CheckoutPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { items, clearCart } = useCart();
 
   const navigate = useNavigate();
@@ -52,6 +53,7 @@ function CheckoutPage() {
     if (items.length === 0) return;
 
     try {
+      setIsSubmitting(true);
       const result = await createOrder({
         customer: formData,
         items: items.map((item) => ({
@@ -60,18 +62,7 @@ function CheckoutPage() {
         })),
       });
 
-      const order = {
-        orderNumber: result.order.id,
-        customer: formData,
-        items: [...items],
-        subtotal: Number(result.order.subtotal),
-        deliveryFee: Number(result.order.delivery_fee),
-        total: Number(result.order.total),
-      };
-
-      navigate("/order-confirmation", {
-        state: { order },
-      });
+      navigate(`/order-confirmation/${result.order.id}`);
 
       clearCart();
     } catch (error) {
@@ -82,6 +73,8 @@ function CheckoutPage() {
           ? error.message
           : "Something went wrong. Please try again.",
       );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -187,8 +180,14 @@ function CheckoutPage() {
             fullWidth
           />
 
-          <Button type="submit" variant="contained" color="primary" fullWidth>
-            Place Order
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            variant="contained"
+            color="primary"
+            fullWidth
+          >
+            {isSubmitting ? "Placing Order..." : "Place Order"}
           </Button>
         </Box>
 
