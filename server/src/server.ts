@@ -4,6 +4,8 @@ import productsRoutes from "./routes/products.routes.js";
 import categoriesRoutes from "./routes/categories.routes.js";
 import ordersRoutes from "./routes/orders.routes.js";
 
+console.log("Server file is loading...");
+
 const app = express();
 const PORT = Number(process.env.PORT) || 5001;
 
